@@ -25,5 +25,15 @@ class TestKNN(unittest.TestCase):
 
         self.assertEqual(self.target.calculateDistance(instance1, instance2), 20.518284528683193)
 
+    def test_calculateDistances(self):
+        magicMock = mock.MagicMock()
+        magicMock.side_effect = [1, 0.3, 2, 0.15, 3, 2, 6, 99, 0.015, 0.191]
+        self.target.calculateDistance = magicMock
+        
+        result = self.target.calculateDistances(np.empty(10), np.empty([10, 10]))
+
+        self.assertEqual(result[0], [1, 0.3, 2, 0.15, 3, 2, 6, 99, 0.015, 0.191])
+        self.assertTrue((result[1]==np.array([8, 3, 9, 1, 0, 2, 5, 4, 6, 7])).all())
+
 if __name__=="__main__":
     unittest.main()

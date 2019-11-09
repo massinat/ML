@@ -1,9 +1,12 @@
 # K-Nearest Neighbor implementation
 # Author: Massimiliano Natale
 
+import os
 import math
 import operator
+import csv
 import numpy as np
+import matplotlib.pyplot as plt
 
 class KNN:
 
@@ -39,6 +42,11 @@ class KNN:
 
         return (distances, np.argsort(distances))
 
+    """
+    Classify a query instance by using the instances of the base truth.
+    It uses a vote done by the nearest k instances.
+    Return the winning class, the first winning class if multiple classes get the same vote.
+    """
     def classify(self, queryInstances, trainingInstances, k):
         votes = {}
 
@@ -51,12 +59,62 @@ class KNN:
 
         return max(votes.items(), key=operator.itemgetter(1))[0]
 
-# Real classification
+"""
+Trigger the classification.
+Accuracy of the model will be calculated based on the partial values written on part1.output.txt.
+Charts provided to better understand the behaviour of the algorithm.
+"""
 if __name__=="__main__":
     knn = KNN("data/classification/trainingData.csv", "data/classification/testData.csv")
     
+    if os.path.exists("part1.output.txt"):
+        os.remove("part1.output.txt")
+    
+    outputFile = open("part1.output.txt", "a+")
+    
+    numberTotal = 0
+    numberCorrects = 0
+    numberWrongs = 0
+
     for item in knn._testData:
-        print(knn.classify(item[:-1], knn._trainingData[:, :-1], 1))
+        numberTotal += 1
+        correctClassification = item[-1]
+        currentClassification = knn.classify(item[:-1], knn._trainingData[:, :-1], 1)
+
+        if currentClassification==correctClassification:
+            numberCorrects += 1
+        else:
+            numberWrongs += 1
+
+        outputFile.write(f"{numberTotal},{numberCorrects},{numberWrongs}\n")
+    
+    outputFile.close()
+
+    # Create the charts
+    x = []
+    yCorrect = []
+    yWrong = []
+    yAccuracy = []
+
+    with open("part1.output.txt", "r") as csvFile:
+        plots = csv.reader(csvFile, delimiter=",")
+        for row in plots:
+            x.append(int(row[0]))
+            yCorrect.append(float(row[1]))
+            yWrong.append(float(row[2]))
+            yAccuracy.append('%.2f'%(float(row[1]) * 100 / float(row[0])))
+    
+    plt.plot(x, yCorrect)
+    plt.plot(x, yWrong)
+    plt.xlabel("Total instances")
+    plt.ylabel("Classified instances")
+    plt.title("Model behaviour K=1")
+    plt.legend(["y = Correct", "y = wrong"], loc="upper left")
+    plt.show()
+
+
+
+
 
 
 
