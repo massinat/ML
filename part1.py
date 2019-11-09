@@ -28,7 +28,7 @@ class KNN:
     Returns the euclidean distance between instance1 and instance2.
     """
     def calculateDistance(self, instance1, instance2):
-        return math.sqrt(np.sum(2**(instance1 - instance2)))
+        return math.sqrt(np.sum(np.square(instance1 - instance2)))
 
     """
     Calculate all the distances between a query instances and the instances of the base truth.
@@ -52,10 +52,11 @@ class KNN:
         return max(votes.items(), key=operator.itemgetter(1))[0]
 
 # Real classification
-# knn = KNN("data/classification/trainingData.csv", "data/classification/testData.csv")
-
-# for item in knn._testData:
-#     print(knn.classify(item[:-1], knn._trainingData[:, :-1], 1))
+if __name__=="__main__":
+    knn = KNN("data/classification/trainingData.csv", "data/classification/testData.csv")
+    
+    for item in knn._testData:
+        print(knn.classify(item[:-1], knn._trainingData[:, :-1], 1))
 
 
 
