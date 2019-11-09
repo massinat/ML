@@ -1,1 +1,2 @@
-part1.output.txt
+*.txt
+__pycache__/**

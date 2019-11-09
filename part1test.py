@@ -1,5 +1,7 @@
-# Useful unit tests for the methods used by KNN class
-# Author: Massimiliano Natale
+"""
+Useful unit tests for the methods used by KNN class.
+@Author: Massimiliano Natale
+"""
 
 from part1 import KNN
 import numpy as np

@@ -1,12 +1,12 @@
-# K-Nearest Neighbor implementation
-# Author: Massimiliano Natale
+"""
+K-Nearest Neighbor implementation.
+@Author: Massimiliano Natale
+"""
 
-import os
 import math
 import operator
-import csv
 import numpy as np
-import matplotlib.pyplot as plt
+from resultHelper import ResultHelper
 
 class KNN:
 
@@ -67,14 +67,10 @@ Charts provided to better understand the behaviour of the algorithm.
 if __name__=="__main__":
     knn = KNN("data/classification/trainingData.csv", "data/classification/testData.csv")
     
-    if os.path.exists("part1.output.txt"):
-        os.remove("part1.output.txt")
-    
-    outputFile = open("part1.output.txt", "a+")
-    
     numberTotal = 0
     numberCorrects = 0
     numberWrongs = 0
+    classificationData = []
 
     for item in knn._testData:
         numberTotal += 1
@@ -86,47 +82,13 @@ if __name__=="__main__":
         else:
             numberWrongs += 1
 
-        outputFile.write(f"{numberTotal},{numberCorrects},{numberWrongs}\n")
+        classificationData.append(f"{numberTotal},{numberCorrects},{numberWrongs}\n")
     
-    outputFile.close()
+    # Save partial result to a file and draw the charts
+    resultHelper = ResultHelper("part1.output.txt")
 
-    # Create the charts
-    x = []
-    yCorrect = []
-    yWrong = []
-    yAccuracy = []
-
-    with open("part1.output.txt", "r") as csvFile:
-        plots = csv.reader(csvFile, delimiter=",")
-        for row in plots:
-            x.append(int(row[0]))
-            yCorrect.append(float(row[1]))
-            yWrong.append(float(row[2]))
-            yAccuracy.append(float(row[1]) * 100 / float(row[0]))
-    
-    plt.subplot(2, 1, 1)
-    plt.plot(x, yCorrect)
-    plt.plot(x, yWrong)
-    plt.annotate(int(yCorrect[-1]), xy=(x[-1] + 3, yCorrect[-1]))
-    plt.annotate(int(yWrong[-1]), xy=(x[-1] + 3, yWrong[-1]))
-    plt.xlabel("Total instances")
-    plt.ylabel("Classified instances")
-    plt.title("Model behaviour K=1")
-    plt.legend(["y = Correct", "y = wrong"], loc="upper left")    
-
-    plt.subplot(2, 1, 2)
-    plt.plot(x, yAccuracy)
-    plt.annotate(f"{yAccuracy[-1]}%", xy=(x[-1] + 3, yAccuracy[-1]))
-    plt.xlabel("Total instances")
-    plt.ylabel("% Accuracy")
-
-    plt.show()
-
-
-
-
-
-
+    resultHelper.write(classificationData)
+    resultHelper.draw("Model behaviour K=1")
 
 
          
