@@ -52,10 +52,10 @@ class KNN:
         return max(votes.items(), key=operator.itemgetter(1))[0]
 
 # Real classification
-knn = KNN("data/classification/trainingData.csv", "data/classification/testData.csv")
+# knn = KNN("data/classification/trainingData.csv", "data/classification/testData.csv")
 
-for item in knn._testData:
-    print(knn.classify(item[:-1], knn._trainingData[:, :-1], 1))
+# for item in knn._testData:
+#     print(knn.classify(item[:-1], knn._trainingData[:, :-1], 1))
 
 
 
