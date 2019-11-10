@@ -63,6 +63,7 @@ class ResultHelper:
                 y.append(float(row[-1]))
 
         plt.plot(x, y)
+        plt.annotate("%.2f" % y[-1] + "%", xy=(x[-1] + 3, y[-1]))
         plt.xlabel("Total instances")
         plt.ylabel("R Squared")
         plt.title(title)
