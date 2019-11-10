@@ -3,7 +3,7 @@ K-Nearest Neighbor implementation.
 All the algorithm is implemented in this class, classification can be of 2 types:
  - Not distance weighted classification [triggered by the method classify()]
  - Distance weighted classification [triggered by the method classifyWithDistanceWeight()]
- 
+
 Configuration parameters like k and n can be set as input parameters of these methods.
 
 @Author: Massimiliano Natale
@@ -81,6 +81,26 @@ class KNN:
             votes[self._trainingData[sortedIndexes[i], -1]] += math.pow(1 / distances[sortedIndexes[i]], n)
 
         return max(votes.items(), key=operator.itemgetter(1))[0]
+
+    def buildClassificationData(self, lambdaClassification):
+        numberTotal = 0
+        numberCorrects = 0
+        numberWrongs = 0
+        classificationData = []
+
+        for item in self._testData:
+            numberTotal += 1
+            correctClassification = item[-1]
+            currentClassification = lambdaClassification(item)
+
+            if currentClassification==correctClassification:
+                numberCorrects += 1
+            else:
+                numberWrongs += 1
+
+            classificationData.append(f"{numberTotal},{numberCorrects},{numberWrongs}\n")
+
+        return classificationData
 
 
          
