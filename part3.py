@@ -21,4 +21,4 @@ if __name__=="__main__":
     resultHelper = ResultHelper("part3.output.txt")
 
     resultHelper.write(regressionData)
-    #resultHelper.draw("")
+    resultHelper.drawRSquared("Model behaviour K=10 distance weighted")

@@ -123,12 +123,19 @@ class KNN:
 
     def buildRegressionData(self, lambdaRegression):
         numberTotal = 0
+        currentSquaredResiduals = 0
+        currentSumOfSquares = 0
+        averagePrediction = np.average(self._testData[:, -1])
         regressionData = []
 
         for item in self._testData:
             numberTotal += 1
             regression = lambdaRegression(item)
+
+            currentSquaredResiduals += math.pow(regression - item[-1], 2)
+            currentSumOfSquares += math.pow(averagePrediction - item[-1], 2)
+            currentRSquared = 1 - (currentSquaredResiduals / currentSumOfSquares)
             
-            regressionData.append(f"{numberTotal},{regression},{item[-1]}\n")
+            regressionData.append(f"{numberTotal},{regression},{item[-1]},{currentRSquared}\n")
 
         return regressionData

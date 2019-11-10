@@ -51,3 +51,20 @@ class ResultHelper:
         plt.ylabel("% Accuracy")
 
         plt.show()
+
+    def drawRSquared(self, title):
+        x = []
+        y = []
+
+        with open(self.outputFile, "r") as csvFile:
+            plots = csv.reader(csvFile, delimiter=",")
+            for row in plots:
+                x.append(int(row[0]))
+                y.append(float(row[-1]))
+
+        plt.plot(x, y)
+        plt.xlabel("Total instances")
+        plt.ylabel("R Squared")
+        plt.title(title)
+
+        plt.show()
