@@ -3,7 +3,7 @@ Useful unit tests for the methods used by KNN class.
 @Author: Massimiliano Natale
 """
 
-from part1 import KNN
+from knn import KNN
 import numpy as np
 import unittest
 import mock

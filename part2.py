@@ -1,6 +1,6 @@
 """
-Classification related to part 1.
-KNN classification with K=1 and euclidean distance. Votes are not distance wighted.
+Classification related to part 2.
+KNN classification with variable K and euclidean distance. Votes are distance wighted.
 
 @Author: Massimiliano Natale
 """
@@ -23,7 +23,7 @@ if __name__=="__main__":
     for item in knn._testData:
         numberTotal += 1
         correctClassification = item[-1]
-        currentClassification = knn.classify(item[:-1], knn._trainingData[:, :-1], 1)
+        currentClassification = knn.classifyWithDistanceWeight(item[:-1], knn._trainingData[:, :-1], 10, 2)
 
         if currentClassification==correctClassification:
             numberCorrects += 1
@@ -33,7 +33,7 @@ if __name__=="__main__":
         classificationData.append(f"{numberTotal},{numberCorrects},{numberWrongs}\n")
     
     # Save partial result to a file and draw the charts
-    resultHelper = ResultHelper("part1.output.txt")
+    resultHelper = ResultHelper("part2.output.txt")
 
     resultHelper.write(classificationData)
-    resultHelper.draw("Model behaviour K=1")
+    resultHelper.draw("Model behaviour K=10 distance weighted")
