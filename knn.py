@@ -88,16 +88,18 @@ class KNN:
     """
     def regressionWithDistanceWeight(self, queryInstance, trainingInstances, k, n):
         regression = 0
-        sumAllKDistances = 0
+        inverseDistance = 0
+        sumAllKInverseDistances = 0
 
         distanceInfo = self.calculateDistances(queryInstance, trainingInstances)
         distances = distanceInfo[0]
         sortedIndexes = distanceInfo[1]
         for i in range(0, k):
-            sumAllKDistances += distances[sortedIndexes[i]]
-            regression += distances[sortedIndexes[i]] * self._trainingData[sortedIndexes[i], -1]
+            inverseDistance = 1 / math.pow(distances[sortedIndexes[i]], n)
+            sumAllKInverseDistances += inverseDistance
+            regression += inverseDistance * self._trainingData[sortedIndexes[i], -1]
 
-        return regression / sumAllKDistances
+        return regression / sumAllKInverseDistances
 
     def buildClassificationData(self, lambdaClassification):
         numberTotal = 0
@@ -130,10 +132,3 @@ class KNN:
             regressionData.append(f"{numberTotal},{regression},{item[-1]}\n")
 
         return regressionData
-
-
-
-         
-
-
-
