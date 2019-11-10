@@ -127,7 +127,9 @@ class KNN:
             numberTotal += 1
             regression = lambdaRegression(item)
             
-            regressionData.append(f"{numberTotal},{regression},{item[-1]}")
+            regressionData.append(f"{numberTotal},{regression},{item[-1]}\n")
+
+        return regressionData
 
 
 
