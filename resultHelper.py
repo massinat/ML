@@ -12,12 +12,12 @@ class ResultHelper:
     def __init__(self, outputFile):
         self.outputFile = outputFile
 
-    def write(self, classificationData):
+    def write(self, experimentData):
         if os.path.exists(self.outputFile):
             os.remove(self.outputFile)
     
         with open(self.outputFile, "a+") as txtFile:
-            for item in classificationData:
+            for item in experimentData:
                 txtFile.write(item)
 
     def draw(self, title):

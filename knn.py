@@ -52,13 +52,13 @@ class KNN:
     It uses a vote not-distance-weighted done by the nearest k instances.
     Return the winning class, the first winning class if multiple classes get the same vote.
     """
-    def classify(self, queryInstances, trainingInstances, k):
+    def classify(self, queryInstance, trainingInstances, k):
         votes = {}
 
         for item in self._classes:
             votes[item] = 0
         
-        sortedIndexes = self.calculateDistances(queryInstances, trainingInstances)[1]
+        sortedIndexes = self.calculateDistances(queryInstance, trainingInstances)[1]
         for i in range(0, k):
             votes[self._trainingData[sortedIndexes[i], -1]] += 1
 
@@ -69,18 +69,35 @@ class KNN:
     It uses a vote distance-weighted done by the nearest k instances.
     Return the winning class, the first winning class if multiple classes get the same vote.
     """
-    def classifyWithDistanceWeight(self, queryInstances, trainingInstances, k, n):
+    def classifyWithDistanceWeight(self, queryInstance, trainingInstances, k, n):
         votes = {}
         for item in self._classes:
             votes[item] = 0
 
-        distanceInfo = self.calculateDistances(queryInstances, trainingInstances)
+        distanceInfo = self.calculateDistances(queryInstance, trainingInstances)
         distances = distanceInfo[0]
         sortedIndexes = distanceInfo[1]
         for i in range(0, k):
             votes[self._trainingData[sortedIndexes[i], -1]] += math.pow(1 / distances[sortedIndexes[i]], n)
 
         return max(votes.items(), key=operator.itemgetter(1))[0]
+
+    """
+    Calculate the regression for a query instance by using the instances of the base truth.
+    It uses a distance-weighted calculation done on the nearest k instances.
+    """
+    def regressionWithDistanceWeight(self, queryInstance, trainingInstances, k, n):
+        regression = 0
+        sumAllKDistances = 0
+
+        distanceInfo = self.calculateDistances(queryInstance, trainingInstances)
+        distances = distanceInfo[0]
+        sortedIndexes = distanceInfo[1]
+        for i in range(0, k):
+            sumAllKDistances += distances[sortedIndexes[i]]
+            regression += distances[sortedIndexes[i]] * self._trainingData[sortedIndexes[i], -1]
+
+        return regression / sumAllKDistances
 
     def buildClassificationData(self, lambdaClassification):
         numberTotal = 0
@@ -101,6 +118,17 @@ class KNN:
             classificationData.append(f"{numberTotal},{numberCorrects},{numberWrongs}\n")
 
         return classificationData
+
+    def buildRegressionData(self, lambdaRegression):
+        numberTotal = 0
+        regressionData = []
+
+        for item in self._testData:
+            numberTotal += 1
+            regression = lambdaRegression(item)
+            
+            regressionData.append(f"{numberTotal},{regression},{item[-1]}")
+
 
 
          
