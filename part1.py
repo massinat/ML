@@ -21,4 +21,4 @@ if __name__=="__main__":
     resultHelper = ResultHelper("part1.output.txt")
 
     resultHelper.write(classificationData)
-    resultHelper.draw("Model behaviour K=1")
+    resultHelper.draw("KNN classification [not-weighted-distance] with K=1")

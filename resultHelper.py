@@ -39,15 +39,15 @@ class ResultHelper:
         plt.plot(x, yWrong)
         plt.annotate(int(yCorrect[-1]), xy=(x[-1] + 3, yCorrect[-1]))
         plt.annotate(int(yWrong[-1]), xy=(x[-1] + 3, yWrong[-1]))
-        plt.xlabel("Total instances")
-        plt.ylabel("Classified instances")
+        plt.xlabel("Classified instances")
+        plt.ylabel("#")
         plt.title(title)
         plt.legend(["y = Correct", "y = wrong"], loc="upper left")
 
         plt.subplot(2, 1, 2)
         plt.plot(x, yAccuracy)
         plt.annotate(f"{yAccuracy[-1]}%", xy=(x[-1] + 3, yAccuracy[-1]))
-        plt.xlabel("Total instances")
+        plt.xlabel("Classified instances")
         plt.ylabel("% Accuracy")
 
         plt.show()
@@ -63,7 +63,7 @@ class ResultHelper:
                 y.append(float(row[-1]))
 
         plt.plot(x, y)
-        plt.annotate("%.2f" % y[-1] + "%", xy=(x[-1] + 3, y[-1]))
+        plt.annotate("%.2f" % (y[-1] * 100) + "%", xy=(x[-1] + 3, y[-1]))
         plt.xlabel("Total instances")
         plt.ylabel("R Squared")
         plt.title(title)
